@@ -7,7 +7,6 @@ namespace opossum {
 
 template <typename T>
 ValueSegment<T>::ValueSegment(bool nullable) {
-  // Implementation goes here
   _entries = std::vector<T>();
   _is_null_entries = std::vector<bool>();
   _nullable = nullable;
@@ -55,7 +54,7 @@ void ValueSegment<T>::append(const AllTypeVariant& value) {
       return;
     }
   }
-  // TODO how to handle different type?
+  // TODO how to handle different types?
 /*  std::cout << value << " " << sizeof(value) << std::endl;
   if(!_entries.empty() && sizeof(_entries) != sizeof(value)){
     throw std::logic_error("Wrong type passed");
@@ -63,7 +62,6 @@ void ValueSegment<T>::append(const AllTypeVariant& value) {
   // Todo: what to do if bigger (f.e. float in int segment) type is passed? Create entire segment again with different type?
   _entries.push_back(type_cast<T>(value));
   _is_null_entries.emplace_back(false);
-
 }
 
 template <typename T>
@@ -83,13 +81,12 @@ bool ValueSegment<T>::is_nullable() const {
 
 template <typename T>
 const std::vector<bool>& ValueSegment<T>::null_values() const {
-  if(_is_null_entries.size() == 0) throw std::logic_error("No null values to return");
+  if(_is_null_entries.empty()) throw std::logic_error("No null values to return");
   return _is_null_entries;
 }
 
 template <typename T>
 size_t ValueSegment<T>::estimate_memory_usage() const {
-  // Implementation goes here
   return _entries.capacity() * sizeof(T);
 }
 

@@ -33,14 +33,14 @@ TEST_F(StorageValueSegmentTest, AppendValueOfDifferentType) {
   EXPECT_EQ(int_value_segment.size(), 1);
   EXPECT_THROW(int_value_segment.append("Hi"), std::logic_error);
 
-  // Todo: what to do in this case?
+  // TODO: what to do in this case?
   // string_value_segment.append(3);
   // string_value_segment.append(4.44);
-  //  EXPECT_EQ(string_value_segment.size(), 2);
+  // EXPECT_EQ(string_value_segment.size(), 2);
 
   double_value_segment.append(4);
   EXPECT_EQ(double_value_segment.size(), 1);
-  //EXPECT_THROW(double_value_segment.append("Hi"), std::logic_error);
+  EXPECT_THROW(double_value_segment.append("Hi"), std::logic_error);
 }
 
 TEST_F(StorageValueSegmentTest, AppendNullValue) {

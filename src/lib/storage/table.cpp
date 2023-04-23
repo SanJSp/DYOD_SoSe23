@@ -70,18 +70,14 @@ ChunkID Table::chunk_count() const {
 }
 
 ColumnID Table::column_id_by_name(const std::string& column_name) const {
-  // maybe use a hashmap here?
+  // Todo: maybe use a hashmap here?
 
   for (auto index = int32_t{0}; index < _column_count; ++index) {
     if(_column_names.at(index) == column_name){
       return ColumnID{index};
     }
   }
-
-  // Todo: how to do this better?
-  DebugAssert(true, "Column name does not exist");
   throw std::logic_error("Name does not exist");
-  return ColumnID{0};
 }
 
 ChunkOffset Table::target_chunk_size() const {
