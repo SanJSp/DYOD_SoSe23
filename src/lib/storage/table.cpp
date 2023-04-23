@@ -21,7 +21,7 @@ void Table::add_column_definition(const std::string& name, const std::string& ty
 
 void Table::add_column(const std::string& name, const std::string& type, const bool nullable) {
   for (auto chunk : _chunks) {
-    std::shared_ptr<AbstractSegment> new_segment;
+    auto new_segment = std::shared_ptr<AbstractSegment>{};
     if(type == "string"){
       new_segment = std::make_shared<ValueSegment<std::string>>(nullable);
     } else {
@@ -36,7 +36,7 @@ void Table::add_column(const std::string& name, const std::string& type, const b
 void Table::create_new_chunk() {
   auto new_chunk = std::make_shared<Chunk>();
   for (int index = 0; index < _column_count ; ++index) {
-    std::shared_ptr<AbstractSegment> new_segment;
+    auto new_segment = std::shared_ptr<AbstractSegment>{};
     if(_column_types.at(index) == "string"){
       new_segment = std::make_shared<ValueSegment<std::string>>(_column_nullable.at(index));
     } else {

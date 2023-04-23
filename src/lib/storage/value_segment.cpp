@@ -55,7 +55,7 @@ void ValueSegment<T>::append(const AllTypeVariant& value) {
     }
   }
   // TODO how to handle different types?
-/*  std::cout << value << " " << sizeof(value) << std::endl;
+  /* std::cout << value << " " << sizeof(value) << std::endl;
   if(!_entries.empty() && sizeof(_entries) != sizeof(value)){
     throw std::logic_error("Wrong type passed");
   }*/
