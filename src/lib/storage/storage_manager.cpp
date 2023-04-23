@@ -14,7 +14,7 @@ void StorageManager::add_table(const std::string& name, std::shared_ptr<Table> t
 }
 
 void StorageManager::drop_table(const std::string& name) {
-  if(_tables[name]) {
+  if (_tables[name]) {
     _tables[name] = nullptr;
   } else {
     throw std::logic_error("Table does not exist");
@@ -22,7 +22,7 @@ void StorageManager::drop_table(const std::string& name) {
 }
 
 std::shared_ptr<Table> StorageManager::get_table(const std::string& name) const {
-  if(_tables.at(name)) {
+  if (_tables.at(name)) {
     return _tables.at(name);
   } else {
     throw std::logic_error("Table does not exist");
@@ -30,19 +30,20 @@ std::shared_ptr<Table> StorageManager::get_table(const std::string& name) const 
 }
 
 bool StorageManager::has_table(const std::string& name) const {
-    if(_tables.contains(name)) return true;
-    return false;
+  if (_tables.contains(name))
+    return true;
+  return false;
 }
 
 std::vector<std::string> StorageManager::table_names() const {
-    auto keys = std::vector<std::string>{};
-    keys.reserve(_tables.size());
+  auto keys = std::vector<std::string>{};
+  keys.reserve(_tables.size());
 
-    for(auto [key, _] : _tables) {
-      keys.push_back(key);
-    }
+  for (auto [key, _] : _tables) {
+    keys.push_back(key);
+  }
 
-    return keys;
+  return keys;
 }
 
 void StorageManager::print(std::ostream& out) const {
@@ -52,7 +53,6 @@ void StorageManager::print(std::ostream& out) const {
 
 void StorageManager::reset() {
   _tables = std::unordered_map<std::string, std::shared_ptr<Table>>();
-
 }
 
 }  // namespace opossum

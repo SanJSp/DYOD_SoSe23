@@ -10,11 +10,8 @@ void Chunk::add_segment(const std::shared_ptr<AbstractSegment> segment) {
 }
 
 void Chunk::append(const std::vector<AllTypeVariant>& values) {
-  DebugAssert(
-      values.size()==_segments.size(),
-      "Different amount of values compared to columns."
-  );
-  for(auto index = size_t{0}; index < values.size(); index++){
+  DebugAssert(values.size() == _segments.size(), "Different amount of values compared to columns.");
+  for (auto index = size_t{0}; index < values.size(); index++) {
     auto segment = _segments.at(index);
     segment->append(values.at(index));
   }

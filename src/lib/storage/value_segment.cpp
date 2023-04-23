@@ -14,7 +14,7 @@ ValueSegment<T>::ValueSegment(bool nullable) {
 
 template <typename T>
 AllTypeVariant ValueSegment<T>::operator[](const ChunkOffset chunk_offset) const {
-  if(_is_null_entries[chunk_offset]){
+  if (_is_null_entries[chunk_offset]) {
     return NULL_VALUE;
   } else {
     return _entries[chunk_offset];
@@ -28,7 +28,7 @@ bool ValueSegment<T>::is_null(const ChunkOffset chunk_offset) const {
 
 template <typename T>
 T ValueSegment<T>::get(const ChunkOffset chunk_offset) const {
-  if(_is_null_entries[chunk_offset]){
+  if (_is_null_entries[chunk_offset]) {
     throw std::logic_error("Value is null");
   }
   return _entries[chunk_offset];
@@ -36,7 +36,7 @@ T ValueSegment<T>::get(const ChunkOffset chunk_offset) const {
 
 template <typename T>
 std::optional<T> ValueSegment<T>::get_typed_value(const ChunkOffset chunk_offset) const {
-  if(_is_null_entries[chunk_offset]){
+  if (_is_null_entries[chunk_offset]) {
     return std::nullopt;
   } else {
     return _entries[chunk_offset];
@@ -45,8 +45,8 @@ std::optional<T> ValueSegment<T>::get_typed_value(const ChunkOffset chunk_offset
 
 template <typename T>
 void ValueSegment<T>::append(const AllTypeVariant& value) {
-  if(variant_is_null(value)){
-    if(!_nullable){
+  if (variant_is_null(value)) {
+    if (!_nullable) {
       throw std::logic_error("Segment is not nullable");
     } else {
       _entries.push_back(type_cast<T>(0));
@@ -54,12 +54,13 @@ void ValueSegment<T>::append(const AllTypeVariant& value) {
       return;
     }
   }
-  // TODO how to handle different types?
+  // TODO(Team): how to handle different types?
   /* std::cout << value << " " << sizeof(value) << std::endl;
   if(!_entries.empty() && sizeof(_entries) != sizeof(value)){
     throw std::logic_error("Wrong type passed");
   }*/
-  // Todo: what to do if bigger (f.e. float in int segment) type is passed? Create entire segment again with different type?
+  // TODO(Team): what to do if bigger (f.e. float in int segment) type is passed?
+  //  Create entire segment again with different type?
   _entries.push_back(type_cast<T>(value));
   _is_null_entries.emplace_back(false);
 }
@@ -81,7 +82,8 @@ bool ValueSegment<T>::is_nullable() const {
 
 template <typename T>
 const std::vector<bool>& ValueSegment<T>::null_values() const {
-  if(_is_null_entries.empty()) throw std::logic_error("No null values to return");
+  if (_is_null_entries.empty())
+    throw std::logic_error("No null values to return");
   return _is_null_entries;
 }
 

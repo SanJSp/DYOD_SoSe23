@@ -17,12 +17,13 @@ Table::Table(const ChunkOffset target_chunk_size) {
 void Table::add_column_definition(const std::string& name, const std::string& type, const bool nullable) {
   _column_names.emplace_back(name);
   _column_types.emplace_back(type);
-  _column_nullable.emplace_back(nullable);}
+  _column_nullable.emplace_back(nullable);
+}
 
 void Table::add_column(const std::string& name, const std::string& type, const bool nullable) {
   for (auto chunk : _chunks) {
     auto new_segment = std::shared_ptr<AbstractSegment>{};
-    if(type == "string"){
+    if (type == "string") {
       new_segment = std::make_shared<ValueSegment<std::string>>(nullable);
     } else {
       new_segment = std::make_shared<ValueSegment<int32_t>>(nullable);
@@ -35,9 +36,9 @@ void Table::add_column(const std::string& name, const std::string& type, const b
 
 void Table::create_new_chunk() {
   auto new_chunk = std::make_shared<Chunk>();
-  for (int index = 0; index < _column_count ; ++index) {
+  for (int index = 0; index < _column_count; ++index) {
     auto new_segment = std::shared_ptr<AbstractSegment>{};
-    if(_column_types.at(index) == "string"){
+    if (_column_types.at(index) == "string") {
       new_segment = std::make_shared<ValueSegment<std::string>>(_column_nullable.at(index));
     } else {
       new_segment = std::make_shared<ValueSegment<int32_t>>(_column_nullable.at(index));
@@ -49,7 +50,7 @@ void Table::create_new_chunk() {
 }
 
 void Table::append(const std::vector<AllTypeVariant>& values) {
-  if(_chunks.back()->size() < _target_chunk_size) {
+  if (_chunks.back()->size() < _target_chunk_size) {
     _chunks.back()->append(values);
   } else {
     create_new_chunk();
@@ -62,7 +63,7 @@ ColumnCount Table::column_count() const {
 }
 
 uint64_t Table::row_count() const {
-  return ((_chunk_count -  1) * _target_chunk_size) + _chunks.back()->size();
+  return ((_chunk_count - 1) * _target_chunk_size) + _chunks.back()->size();
 }
 
 ChunkID Table::chunk_count() const {
@@ -73,7 +74,7 @@ ColumnID Table::column_id_by_name(const std::string& column_name) const {
   // Todo: maybe use a hashmap here?
 
   for (auto index = int32_t{0}; index < _column_count; ++index) {
-    if(_column_names.at(index) == column_name){
+    if (_column_names.at(index) == column_name) {
       return ColumnID{index};
     }
   }
