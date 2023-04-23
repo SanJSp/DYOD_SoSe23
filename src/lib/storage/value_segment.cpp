@@ -83,6 +83,7 @@ bool ValueSegment<T>::is_nullable() const {
 
 template <typename T>
 const std::vector<bool>& ValueSegment<T>::null_values() const {
+  if(_is_null_entries.size() == 0) throw std::logic_error("No null values to return");
   return _is_null_entries;
 }
 
